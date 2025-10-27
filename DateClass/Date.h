@@ -1,3 +1,8 @@
+/*
+keeps track of and modifies the date
+*/
+
+
 #pragma once
 #include <iostream>
 using namespace std;
@@ -18,7 +23,7 @@ private:
 	int day;
 	int month;
 	int year;
-	int monthDays(int m);
+	int monthDays(int m, int y);
 	int monthDays();
 	bool leapYear(int y);
 	bool leapYear();

@@ -3,27 +3,28 @@
 using namespace std;
 
 
-
+//default contructor for class, assumes date is 1/1/1900
 Date::Date()
 {
 	setDate();
 }
 
+//constructor that allows the date to be set to desired value
 Date::Date(int m, int d, int y)
 {
 	setDate(m, d, y);
 }
 
+//sets date to 1/1/1900
 void Date::setDate()
 {
-	day = 1;
-	month = 1;
-	year = 1900;
+	setDate(1, 1, 1900);
 }
 
+// allows date to be set to desired value
 void Date::setDate(int m, int d, int y)
 {
-	if (y > 1900)
+	if (y > 1899)
 	{
 		year = y;
 	}
@@ -32,7 +33,7 @@ void Date::setDate(int m, int d, int y)
 		cout << "Error in setDate: year given is out of range." << endl;
 			year = 1900;
 	}
-	if (0 < m < 13)
+	if (0 < m && m < 13)
 	{
 		month = m;
 	}
@@ -41,7 +42,7 @@ void Date::setDate(int m, int d, int y)
 		cout << "Error in setDate: month out of range." << endl;
 		month = 1;
 	}
-	if (0 < d < monthDays(m) + 1)
+	if (0 < d && d < monthDays(m)+1)
 	{
 		day = d;
 	}
@@ -52,14 +53,24 @@ void Date::setDate(int m, int d, int y)
 	}
 }
 
-int Date::monthDays(int m)
+//checks to see how many days are in a given month
+int Date::monthDays(int m,int y)
 {
 	switch (m)
 	{
 	case 1:
 		return 31;
 	case 2:
-		return 28;
+	{
+		if(leapYear(y)== true)
+		{
+			return 29;
+		}
+		else
+		{
+			return 28;
+		}
+	}
 	case 3:
 		return 31;
 	case 4:
@@ -79,17 +90,11 @@ int Date::monthDays(int m)
 	case 11:
 		return 30;
 	case 12:
-		if (leapYear(year) == true)
-		{
-			return 31;
-		}
-		else
-		{
-			return 30;
-		}
+		return 31;
 	}
 }
 
+// checks if the given year is a leap year or not
 bool Date::leapYear(int y)
 {
 	if (y % 100 == 0)
@@ -105,74 +110,37 @@ bool Date::leapYear(int y)
 	}
 }
 
+//checks to see how many days are in the month, uses the current month stored in the class
 int Date::monthDays()
 {
-	switch (month)
-	{
-	case 1:
-		return 31;
-	case 2:
-		return 28;
-	case 3:
-		return 31;
-	case 4:
-		return 30;
-	case 5:
-		return 31;
-	case 6:
-		return 30;
-	case 7:
-		return 31;
-	case 8:
-		return 31;
-	case 9:
-		return 30;
-	case 10:
-		return 31;
-	case 11:
-		return 30;
-	case 12:
-		if (leapYear() == true)
-		{
-			return 31;
-		}
-		else
-		{
-			return 30;
-		}
-	}
+	return monthDays(month, year);
 }
 
+// checks to see if year stored in the class is a leap year or not
 bool Date::leapYear()
 {
-	if (year % 100 == 0)
-	{
-		if (year % 400 == 0)
-		{
-			return true;
-		}
-	}
-	else if (year % 4 == 0)
-	{
-		return true;
-	}
+	return leapYear(year);
 }
 
+//returns the day stored in the class
 int Date::getDay()
 {
 	return day;
 }
 
+//returns the month stored in the class
 int Date::getMonth()
 {
 	return month;
 }
 
+// returns the year stored in the class
 int Date::getYear()
 {
 	return year;
 }
 
+//displays the date. three diffrent layouts depending on the input number
 void Date::display(int num)
 {
 	switch (num)
@@ -191,6 +159,7 @@ void Date::display(int num)
 	}
 }
 
+// returns the name of the month
 string Date::monthName(int m)
 {
 	switch (m)
